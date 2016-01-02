@@ -1,2 +1,4 @@
 To do:
-- Everything
+- Create domain types to represent game rules and state
+- Select libraries for rendering and persistence
+- Everything else
