@@ -1,8 +1,8 @@
 module Domain.World
 ( Coord
-, Side
-, Tile
-, Unit
+, Side(..)
+, Tile(..)
+, Unit(..)
 ) where
 
 type Coord = (Int, Int)
