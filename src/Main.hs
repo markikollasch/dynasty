@@ -1,9 +1,13 @@
 --
 -- Copyright (C) 2016 Mark Kollasch
 --
-import System.Environment
+module Main
+( main
+) where
 
+import System.Environment
+import Domain.World
 import Domain.Zone
 
 main :: IO ()
-main = putStrLn "Hello, world."
+main = putStrLn "Nothing to see here yet."
