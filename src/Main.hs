@@ -6,8 +6,7 @@ module Main
 ) where
 
 import System.Environment
-import Domain.World
-import Domain.Zone
+import Interface.InterfaceState
 
 main :: IO ()
 main = putStrLn "Nothing to see here yet."
