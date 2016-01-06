@@ -1,5 +1,5 @@
 module Domain.GameState
-( GameState
+( GameState(..)
 , Instruction(..)
 , updateGame
 ) where
@@ -9,6 +9,7 @@ import Domain.World
 import Domain.Zone
 
 data GameState = GameState { zone :: Maybe Zone
+                           , dummyState :: String
                            } -- TODO
 
 data Instruction = DoNothing -- TODO

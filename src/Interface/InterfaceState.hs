@@ -1,6 +1,6 @@
 module Interface.InterfaceState
-( InterfaceState
-, Input
+( InterfaceState(..)
+, Input(..)
 , updateInterface
 ) where
 
