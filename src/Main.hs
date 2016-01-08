@@ -32,19 +32,16 @@ updateEnvironment env = do
                        , previous = current env }
 
 mainLoop :: Environment -> InterfaceState -> IO ()
-mainLoop oldEnvironment state = do
+mainLoop oldEnvironment oldState = do
     env <- updateEnvironment oldEnvironment
-    updatedState <- update env state
-    render env updatedState
-    if shouldExit env updatedState
+    state <- return (update env oldState)
+    render env state
+    if shouldExit env state
         then return ()
-        else mainLoop env updatedState
+        else mainLoop env state
 
-update :: Environment -> InterfaceState -> IO InterfaceState
-update env state = do
-    putStrLn "Updating...."
-    threadDelay 100000
-    return $ updateInterface NoInput nanosecs state -- TODO
+update :: Environment -> InterfaceState -> InterfaceState
+update env state = updateInterface NoInput nanosecs state -- TODO
     where nanosecs = timeSpecAsNanoSecs $ delta env
 
 render :: Environment -> InterfaceState -> IO ()
