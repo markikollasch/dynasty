@@ -31,24 +31,26 @@ updateEnvironment env = do
                        , current = newFrame
                        , previous = current env }
 
+
 mainLoop :: Environment -> InterfaceState -> IO ()
 mainLoop oldEnvironment oldState = do
-    env <- updateEnvironment oldEnvironment
-    state <- return (update env oldState)
-    render env state
-    if shouldExit env state
+    putStrLn $ render state
+    threadDelay 200000
+    newEnvironment <- updateEnvironment oldEnvironment
+    if shouldExit oldEnvironment state
         then return ()
-        else mainLoop env state
+        else mainLoop newEnvironment state
+    where state = update oldEnvironment oldState
 
 update :: Environment -> InterfaceState -> InterfaceState
 update env state = updateInterface NoInput nanosecs state -- TODO
     where nanosecs = timeSpecAsNanoSecs $ delta env
 
-render :: Environment -> InterfaceState -> IO ()
-render env state = do
-    putStrLn "Rendering...."
-    threadDelay 200000
-    putStrLn $ ((dummyState . gameState) state) ++ " " ++ show (frameLength state)
+render :: InterfaceState -> String
+render state = text ++ " " ++ duration
+    where duration = show $ frameLength state
+          game = gameState state
+          text = dummyState game
 
 shouldExit :: Environment -> InterfaceState -> Bool
 --shouldExit _ _ = True
