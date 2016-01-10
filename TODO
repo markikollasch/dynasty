@@ -1,5 +1,5 @@
 To do:
-- Create domain types to represent game rules and state
 - Select libraries for rendering and persistence
-- Add unit tests
+- Select FRP library for representation of time or framerate
+- Implement and test domain types
 - Everything else

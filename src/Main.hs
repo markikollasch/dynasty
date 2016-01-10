@@ -7,7 +7,6 @@ module Main
 
 import System.Environment
 import System.Clock
-import Control.Concurrent
 import Interface.InterfaceState
 import Domain.GameState
 
@@ -34,27 +33,30 @@ updateEnvironment env = do
 
 mainLoop :: Environment -> InterfaceState -> IO ()
 mainLoop oldEnvironment oldState = do
-    putStrLn $ render state
-    threadDelay 200000
     newEnvironment <- updateEnvironment oldEnvironment
-    if shouldExit oldEnvironment state
+    newState <- return $ update newEnvironment oldState
+    if shouldRender newEnvironment newState
+        then putStrLn $ render newState
+        else return ()
+    if shouldExit oldEnvironment newState
         then return ()
-        else mainLoop newEnvironment state
-    where state = update oldEnvironment oldState
+        else mainLoop newEnvironment newState
 
 update :: Environment -> InterfaceState -> InterfaceState
 update env state = updateInterface NoInput nanosecs state -- TODO
     where nanosecs = timeSpecAsNanoSecs $ delta env
 
 render :: InterfaceState -> String
-render state = text ++ " " ++ duration
+render state =  text ++ " " ++ duration -- TODO: show something more meaningful than the number of nanoseconds since the start of the frame
     where duration = show $ frameLength state
           game = gameState state
           text = dummyState game
 
 shouldExit :: Environment -> InterfaceState -> Bool
---shouldExit _ _ = True
-shouldExit env _ = (elapsed env) > (TimeSpec { sec = 3, nsec = 0 })
+shouldExit env _ = (elapsed env) > (TimeSpec { sec = 1, nsec = 0 })
+
+shouldRender :: Environment -> InterfaceState -> Bool
+shouldRender env state = (frameLength state) <= (timeSpecAsNanoSecs $ delta env)
 
 data Environment = Environment { clock :: Clock
                                , previous :: TimeSpec
@@ -66,6 +68,7 @@ initializeState :: InterfaceState
 initializeState = InterfaceState { gameState = GameState { zone = Nothing
                                                          , dummyState = "This frame lasted"
                                                          }
+                                 , tickLength = 0
                                  , frameLength = 0
                                  }
 
