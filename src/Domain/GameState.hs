@@ -10,9 +10,15 @@ import Domain.Zone
 
 data GameState = GameState { zone :: Maybe Zone
                            , dummyState :: String
+                           , framesElapsed :: Integer
                            } -- TODO
 
-data Instruction = DoNothing -- TODO
+data Instruction = DoNothing | DoSomething -- TODO
 
 updateGame :: Instruction -> GameState -> GameState
 updateGame DoNothing state = state
+updateGame action state = let frameCount = succ $ framesElapsed state
+                          in  GameState { zone = zone state
+                                        , dummyState = "I've been updated " ++ show frameCount ++ " times!"
+                                        , framesElapsed = frameCount
+                                        }

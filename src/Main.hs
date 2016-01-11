@@ -47,7 +47,7 @@ update env state = updateInterface NoInput nanosecs state -- TODO
     where nanosecs = timeSpecAsNanoSecs $ delta env
 
 render :: InterfaceState -> String
-render state =  text ++ " " ++ duration -- TODO: show something more meaningful than the number of nanoseconds since the start of the frame
+render state = text
     where duration = show $ frameLength state
           game = gameState state
           text = dummyState game
@@ -66,7 +66,8 @@ data Environment = Environment { clock :: Clock
 
 initializeState :: InterfaceState
 initializeState = InterfaceState { gameState = GameState { zone = Nothing
-                                                         , dummyState = "This frame lasted"
+                                                         , dummyState = "I've just started."
+                                                         , framesElapsed = 0
                                                          }
                                  , tickLength = 0
                                  , frameLength = 0
