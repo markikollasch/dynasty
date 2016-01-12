@@ -61,6 +61,7 @@ executable dynasty
                      , containers >=0.5
                      , mtl
                      , clock
+                     , Hate
 
   -- Directories containing source files.
   hs-source-dirs:      src
