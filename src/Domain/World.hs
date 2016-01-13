@@ -9,7 +9,7 @@ type Coord = (Int, Int)
 
 data Side = Player | Enemy deriving (Eq, Show)
 
-data Tile = Floor | Obstacle | Forbidden deriving (Show)
+data Tile = Floor | Obstacle | Forbidden deriving (Eq, Show)
 
 data Unit = Unit { name :: String
                  , side :: Side

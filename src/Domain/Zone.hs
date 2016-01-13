@@ -1,8 +1,10 @@
 module Domain.Zone
 ( Zone(..)
+, ZoneTile(..)
 , blank
 , allUnits
 , allTiles
+, zoneTiles
 
 , inBounds
 , outOfBounds
@@ -20,7 +22,25 @@ import Domain.World
 data Zone = Zone { size :: Coord
                  , units :: Map.Map Coord Unit
                  , tiles :: Map.Map Coord Tile
-                 }
+                 } deriving (Eq)
+
+data ZoneTile a = ZoneTile { location :: Coord
+                           , terrain :: Maybe Tile
+                           , occupant :: Maybe Unit
+                           , datum :: a
+                           } deriving (Eq, Show)
+
+zoneTiles :: Zone -> (Zone -> Coord -> a) -> [ZoneTile a]
+zoneTiles zone func =
+    let bounds = size zone
+        allCoords = [ (x, y) | x <- [0..fst bounds - 1], y <- [0..snd bounds - 1] ]
+        makeZoneTile :: (Zone -> Coord -> a) -> Coord -> ZoneTile a
+        makeZoneTile f c = ZoneTile { location = c
+                                    , terrain = tileAt zone c
+                                    , occupant = unitAt zone c
+                                    , datum = f zone c
+                                    }
+    in  map (makeZoneTile func) allCoords
 
 blank :: Int -> Int -> Zone
 blank w h =
