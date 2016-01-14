@@ -1,5 +1,7 @@
 To do:
-- Select libraries for rendering and persistence
-- Select FRP library for representation of time or framerate
-- Implement and test domain types
+- Select libraries for rendering, audio, and persistence
+- Implement rendering
+- Implement capturing of input
+- Investigate integration of FRP
+- Implement and test domain types and game rules
 - Everything else
